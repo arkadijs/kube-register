@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -35,5 +36,10 @@ func register(endpoint, addr string) error {
 		log.Printf("registered machine: %s\n", addr)
 		return nil
 	}
-	return errors.New("error registering: " + addr)
+	body, err := ioutil.ReadAll(res.Body)
+	reason := ""
+	if err == nil {
+		reason = ": " + string(body)
+	}
+	return errors.New("error registering: " + addr + reason)
 }
