@@ -10,11 +10,16 @@ import (
 	"net/http"
 )
 
+type Meta struct {
+	Name string `json:"name,omitempty"`
+}
+
 type Minion struct {
+	APIVersion string `json:"apiVersion,omitempty"`
 	Kind       string `json:"kind,omitempty"`
 	ID         string `json:"id,omitempty"`
+	Metadata   Meta   `json:"metadata,omitempty"`
 	HostIP     string `json:"hostIP,omitempty"`
-	APIVersion string `json:"apiVersion,omitempty"`
 }
 
 type MinionResp struct {
@@ -23,9 +28,10 @@ type MinionResp struct {
 
 func register(endpoint, addr string) error {
 	m := &Minion{
-		Kind:       "Minion",
 		APIVersion: "v1beta1",
+		Kind:       "Minion",
 		ID:         addr,
+		Metadata:   Meta{Name: addr},
 		HostIP:     addr,
 	}
 	mr := &MinionResp{}
