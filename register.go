@@ -43,14 +43,11 @@ func register(endpoint, addr string) error {
 		log.Printf("registered machine: %s\n", addr)
 		return nil
 	}
-	data, err = ioutil.ReadAll(res.Body)
-	json.Unmarshal([]byte(data), &mr)
+	body, err := ioutil.ReadAll(res.Body)
+	json.Unmarshal([]byte(body), &mr)
 	if res.StatusCode == 409 && mr.Reason == "AlreadyExists" {
 		return nil
 	}
-	log.Printf("Response: %#v", res)
-	log.Printf("Response Body:\n%s", string(data))
-	body, err := ioutil.ReadAll(res.Body)
 	reason := ""
 	if err == nil {
 		reason = ": " + string(body)
