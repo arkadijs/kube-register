@@ -10,17 +10,23 @@ import (
 	"net/http"
 )
 
+type Meta struct {
+	Name string `json:"name,omitempty"`
+}
+
 type Minion struct {
-	Kind   string `json:"kind,omitempty"`
-	ID     string `json:"id,omitempty"`
-	HostIP string `json:"hostIP,omitempty"`
+	Kind     string `json:"kind,omitempty"`
+	ID       string `json:"id,omitempty"`
+	Metadata Meta   `json:"metadata,omitempty"`
+	HostIP   string `json:"hostIP,omitempty"`
 }
 
 func register(endpoint, addr string) error {
 	m := &Minion{
-		Kind:   "Minion",
-		ID:     addr,
-		HostIP: addr,
+		Kind:     "Minion",
+		ID:       addr,
+		Metadata: Meta{Name: addr},
+		HostIP:   addr,
 	}
 	data, err := json.Marshal(m)
 	if err != nil {
