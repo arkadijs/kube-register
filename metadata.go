@@ -8,6 +8,9 @@ import (
 )
 
 func hasMetadata(ms machine.MachineState, metadata map[string][]string) bool {
+	if metadata == nil {
+		return true
+	}
 	for k, v := range metadata {
 		for _, s := range v {
 			if ms.Metadata[k] == s {
