@@ -45,7 +45,7 @@ func register(endpoint, addr string) error {
 		return err
 	}
 	defer res.Body.Close()
-	if res.StatusCode == 202 || res.StatusCode == 200 {
+	if res.StatusCode == 201 || res.StatusCode == 200 {
 		log.Printf("registered machine: %s\n", addr)
 		return nil
 	}
@@ -58,5 +58,5 @@ func register(endpoint, addr string) error {
 	if err == nil {
 		reason = ": " + string(body)
 	}
-	return errors.New("error registering: " + addr + reason)
+	return errors.New(fmt.Sprintf("error registering %s: %#v\n%s", addr, res, reason))
 }
